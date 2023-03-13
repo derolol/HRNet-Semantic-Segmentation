@@ -1,0 +1,379 @@
+2023-03-13 16:39:31,804 Namespace(cfg='experiments/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484.yaml', local_rank=0, opts=[])
+2023-03-13 16:39:31,804 AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: linkcrack
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 2
+  ROOT: ../LinkCrack/data/
+  TEST_SET: list/linkcrack/val.lst
+  TRAIN_SET: list/linkcrack/train.lst
+DEBUG:
+  DEBUG: False
+  SAVE_BATCH_IMAGES_GT: False
+  SAVE_BATCH_IMAGES_PRED: False
+  SAVE_HEATMAPS_GT: False
+  SAVE_HEATMAPS_PRED: False
+GPUS: (0,)
+LOG_DIR: log
+LOSS:
+  CLASS_BALANCE: True
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  USE_OHEM: False
+MODEL:
+  EXTRA:
+    FINAL_CONV_KERNEL: 1
+    STAGE1:
+      BLOCK: BOTTLENECK
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [1]
+      NUM_CHANNELS: [32]
+      NUM_MODULES: 1
+      NUM_RANCHES: 1
+    STAGE2:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [2, 2]
+      NUM_BRANCHES: 2
+      NUM_CHANNELS: [16, 32]
+      NUM_MODULES: 1
+    STAGE3:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [2, 2, 2]
+      NUM_BRANCHES: 3
+      NUM_CHANNELS: [16, 32, 64]
+      NUM_MODULES: 1
+    STAGE4:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [2, 2, 2, 2]
+      NUM_BRANCHES: 4
+      NUM_CHANNELS: [16, 32, 64, 128]
+      NUM_MODULES: 1
+  NAME: seg_hrnet
+  PRETRAINED: pretrained_models/hrnet_w18_small_model_v1.pth
+OUTPUT_DIR: output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+RANK: 0
+TEST:
+  BASE_SIZE: 3
+  BATCH_SIZE_PER_GPU: 16
+  CENTER_CROP_TEST: False
+  FLIP_TEST: False
+  IMAGE_SIZE: [512, 512]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  NUM_SAMPLES: 0
+  SCALE_LIST: [1]
+TRAIN:
+  BASE_SIZE: 3
+  BATCH_SIZE_PER_GPU: 16
+  BEGIN_EPOCH: 0
+  DOWNSAMPLERATE: 1
+  END_EPOCH: 484
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  IGNORE_LABEL: 255
+  IMAGE_SIZE: [512, 512]
+  LR: 0.01
+  LR_FACTOR: 0.1
+  LR_STEP: [90, 110]
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  NUM_SAMPLES: 0
+  OPTIMIZER: sgd
+  RESUME: False
+  SCALE_FACTOR: 16
+  SHUFFLE: True
+  WD: 0.0005
+WORKERS: 1
+2023-03-13 16:39:31,855 => init weights from normal distribution
+2023-03-13 16:39:38,468 
+Total Parameters: 1,536,722
+----------------------------------------------------------------------------------------------------------------------------------
+Total Multiply Adds (For Convolution and Linear Layers only): 3.824951171875 GFLOPs
+----------------------------------------------------------------------------------------------------------------------------------
+Number of Layers
+Conv2d : 73 layers   BatchNorm2d : 72 layers   ReLU : 60 layers   Bottleneck : 1 layers   BasicBlock : 18 layers   HighResolutionModule : 3 layers   
+2023-03-13 16:39:39,543 Epoch: [0/484] Iter:[0/43], Time: 1.06, lr: 0.010000, Loss: 0.703276
+2023-03-13 16:39:41,143 Epoch: [0/484] Iter:[10/43], Time: 0.24, lr: 0.009996, Loss: 5.111124
+2023-03-13 16:39:42,989 Epoch: [0/484] Iter:[20/43], Time: 0.21, lr: 0.009991, Loss: 3.287881
+2023-03-13 16:39:44,820 Epoch: [0/484] Iter:[30/43], Time: 0.20, lr: 0.009987, Loss: 2.637465
+2023-03-13 16:39:46,668 Epoch: [0/484] Iter:[40/43], Time: 0.20, lr: 0.009983, Loss: 2.166657
+2023-03-13 16:39:50,925 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:39:50,996 Loss: 78155.826, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:39:50,996 [0.99805433 0.        ]
+2023-03-13 16:39:51,360 Epoch: [1/484] Iter:[0/43], Time: 0.30, lr: 0.009981, Loss: 2.735222
+2023-03-13 16:39:53,219 Epoch: [1/484] Iter:[10/43], Time: 0.20, lr: 0.009977, Loss: 0.700057
+2023-03-13 16:39:55,078 Epoch: [1/484] Iter:[20/43], Time: 0.19, lr: 0.009973, Loss: 0.674457
+2023-03-13 16:39:56,932 Epoch: [1/484] Iter:[30/43], Time: 0.19, lr: 0.009968, Loss: 0.656262
+2023-03-13 16:39:58,780 Epoch: [1/484] Iter:[40/43], Time: 0.19, lr: 0.009964, Loss: 0.638710
+2023-03-13 16:40:02,753 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:40:02,801 Loss: 313.862, MeanIU:  0.4975, Best_mIoU:  0.4990
+2023-03-13 16:40:02,801 [9.94278171e-01 8.07891828e-04]
+2023-03-13 16:40:03,160 Epoch: [2/484] Iter:[0/43], Time: 0.29, lr: 0.009963, Loss: 0.021296
+2023-03-13 16:40:04,994 Epoch: [2/484] Iter:[10/43], Time: 0.19, lr: 0.009958, Loss: 0.341192
+2023-03-13 16:40:06,821 Epoch: [2/484] Iter:[20/43], Time: 0.19, lr: 0.009954, Loss: 0.389177
+2023-03-13 16:40:08,667 Epoch: [2/484] Iter:[30/43], Time: 0.19, lr: 0.009950, Loss: 0.467088
+2023-03-13 16:40:10,495 Epoch: [2/484] Iter:[40/43], Time: 0.19, lr: 0.009945, Loss: 0.628356
+2023-03-13 16:40:14,457 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:40:14,502 Loss: 6.160, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:40:14,502 [9.97983500e-01 6.70825787e-06]
+2023-03-13 16:40:14,859 Epoch: [3/484] Iter:[0/43], Time: 0.30, lr: 0.009944, Loss: 0.036266
+2023-03-13 16:40:16,728 Epoch: [3/484] Iter:[10/43], Time: 0.20, lr: 0.009940, Loss: 1.249972
+2023-03-13 16:40:18,591 Epoch: [3/484] Iter:[20/43], Time: 0.19, lr: 0.009936, Loss: 1.266534
+2023-03-13 16:40:20,443 Epoch: [3/484] Iter:[30/43], Time: 0.19, lr: 0.009931, Loss: 1.133490
+2023-03-13 16:40:22,288 Epoch: [3/484] Iter:[40/43], Time: 0.19, lr: 0.009927, Loss: 1.119518
+2023-03-13 16:40:26,265 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:40:26,314 Loss: 0.979, MeanIU:  0.4965, Best_mIoU:  0.4990
+2023-03-13 16:40:26,314 [9.92540255e-01 4.18714926e-04]
+2023-03-13 16:40:26,675 Epoch: [4/484] Iter:[0/43], Time: 0.29, lr: 0.009926, Loss: 0.731314
+2023-03-13 16:40:28,530 Epoch: [4/484] Iter:[10/43], Time: 0.19, lr: 0.009921, Loss: 0.598410
+2023-03-13 16:40:30,355 Epoch: [4/484] Iter:[20/43], Time: 0.19, lr: 0.009917, Loss: 0.716649
+2023-03-13 16:40:32,190 Epoch: [4/484] Iter:[30/43], Time: 0.19, lr: 0.009913, Loss: 0.779192
+2023-03-13 16:40:34,078 Epoch: [4/484] Iter:[40/43], Time: 0.19, lr: 0.009908, Loss: 0.715349
+2023-03-13 16:40:38,061 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:40:38,101 Loss: 2.192, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:40:38,101 [0.99805433 0.        ]
+2023-03-13 16:40:38,455 Epoch: [5/484] Iter:[0/43], Time: 0.29, lr: 0.009907, Loss: 0.034508
+2023-03-13 16:40:40,293 Epoch: [5/484] Iter:[10/43], Time: 0.19, lr: 0.009903, Loss: 0.458726
+2023-03-13 16:40:42,131 Epoch: [5/484] Iter:[20/43], Time: 0.19, lr: 0.009898, Loss: 0.462005
+2023-03-13 16:40:43,977 Epoch: [5/484] Iter:[30/43], Time: 0.19, lr: 0.009894, Loss: 0.579140
+2023-03-13 16:40:45,822 Epoch: [5/484] Iter:[40/43], Time: 0.19, lr: 0.009890, Loss: 0.558590
+2023-03-13 16:40:49,773 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:40:49,848 Loss: 1.714, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:40:49,849 [0.99805433 0.        ]
+2023-03-13 16:40:50,207 Epoch: [6/484] Iter:[0/43], Time: 0.29, lr: 0.009888, Loss: 0.102709
+2023-03-13 16:40:52,098 Epoch: [6/484] Iter:[10/43], Time: 0.20, lr: 0.009884, Loss: 0.618590
+2023-03-13 16:40:53,987 Epoch: [6/484] Iter:[20/43], Time: 0.19, lr: 0.009880, Loss: 0.581360
+2023-03-13 16:40:55,871 Epoch: [6/484] Iter:[30/43], Time: 0.19, lr: 0.009875, Loss: 0.665956
+2023-03-13 16:40:57,735 Epoch: [6/484] Iter:[40/43], Time: 0.19, lr: 0.009871, Loss: 0.546374
+2023-03-13 16:41:01,673 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:41:01,721 Loss: 1.662, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:41:01,721 [0.99805433 0.        ]
+2023-03-13 16:41:02,083 Epoch: [7/484] Iter:[0/43], Time: 0.30, lr: 0.009870, Loss: 1.939394
+2023-03-13 16:41:03,957 Epoch: [7/484] Iter:[10/43], Time: 0.20, lr: 0.009865, Loss: 0.451034
+2023-03-13 16:41:05,807 Epoch: [7/484] Iter:[20/43], Time: 0.19, lr: 0.009861, Loss: 0.482574
+2023-03-13 16:41:07,653 Epoch: [7/484] Iter:[30/43], Time: 0.19, lr: 0.009857, Loss: 0.485310
+2023-03-13 16:41:09,500 Epoch: [7/484] Iter:[40/43], Time: 0.19, lr: 0.009852, Loss: 0.476628
+2023-03-13 16:41:13,513 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:41:13,561 Loss: 1.483, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:41:13,561 [0.99805433 0.        ]
+2023-03-13 16:41:13,923 Epoch: [8/484] Iter:[0/43], Time: 0.30, lr: 0.009851, Loss: 0.132145
+2023-03-13 16:41:15,812 Epoch: [8/484] Iter:[10/43], Time: 0.20, lr: 0.009847, Loss: 0.788185
+2023-03-13 16:41:17,684 Epoch: [8/484] Iter:[20/43], Time: 0.19, lr: 0.009842, Loss: 0.763710
+2023-03-13 16:41:19,551 Epoch: [8/484] Iter:[30/43], Time: 0.19, lr: 0.009838, Loss: 0.621348
+2023-03-13 16:41:21,422 Epoch: [8/484] Iter:[40/43], Time: 0.19, lr: 0.009834, Loss: 0.479637
+2023-03-13 16:41:25,357 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:41:25,405 Loss: 2.659, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:41:25,405 [0.99805433 0.        ]
+2023-03-13 16:41:25,768 Epoch: [9/484] Iter:[0/43], Time: 0.30, lr: 0.009832, Loss: 0.023603
+2023-03-13 16:41:27,639 Epoch: [9/484] Iter:[10/43], Time: 0.20, lr: 0.009828, Loss: 0.764344
+2023-03-13 16:41:29,479 Epoch: [9/484] Iter:[20/43], Time: 0.19, lr: 0.009824, Loss: 0.761222
+2023-03-13 16:41:31,322 Epoch: [9/484] Iter:[30/43], Time: 0.19, lr: 0.009819, Loss: 0.783860
+2023-03-13 16:41:33,161 Epoch: [9/484] Iter:[40/43], Time: 0.19, lr: 0.009815, Loss: 0.752328
+2023-03-13 16:41:37,065 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:41:37,116 Loss: 1.157, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:41:37,116 [0.99805433 0.        ]
+2023-03-13 16:41:37,477 Epoch: [10/484] Iter:[0/43], Time: 0.29, lr: 0.009814, Loss: 0.241511
+2023-03-13 16:41:39,349 Epoch: [10/484] Iter:[10/43], Time: 0.20, lr: 0.009810, Loss: 0.291279
+2023-03-13 16:41:41,207 Epoch: [10/484] Iter:[20/43], Time: 0.19, lr: 0.009805, Loss: 0.499555
+2023-03-13 16:41:43,064 Epoch: [10/484] Iter:[30/43], Time: 0.19, lr: 0.009801, Loss: 0.558823
+2023-03-13 16:41:44,924 Epoch: [10/484] Iter:[40/43], Time: 0.19, lr: 0.009797, Loss: 0.535815
+2023-03-13 16:41:48,913 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:41:48,952 Loss: 1.372, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:41:48,953 [0.99805433 0.        ]
+2023-03-13 16:41:49,306 Epoch: [11/484] Iter:[0/43], Time: 0.29, lr: 0.009795, Loss: 0.178789
+2023-03-13 16:41:51,156 Epoch: [11/484] Iter:[10/43], Time: 0.19, lr: 0.009791, Loss: 0.570323
+2023-03-13 16:41:52,994 Epoch: [11/484] Iter:[20/43], Time: 0.19, lr: 0.009787, Loss: 0.662106
+2023-03-13 16:41:54,827 Epoch: [11/484] Iter:[30/43], Time: 0.19, lr: 0.009782, Loss: 0.618468
+2023-03-13 16:41:56,662 Epoch: [11/484] Iter:[40/43], Time: 0.19, lr: 0.009778, Loss: 0.589373
+2023-03-13 16:42:00,585 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:42:00,628 Loss: 1.449, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:42:00,628 [0.99805433 0.        ]
+2023-03-13 16:42:00,984 Epoch: [12/484] Iter:[0/43], Time: 0.29, lr: 0.009777, Loss: 0.169997
+2023-03-13 16:42:02,856 Epoch: [12/484] Iter:[10/43], Time: 0.20, lr: 0.009772, Loss: 0.429163
+2023-03-13 16:42:04,725 Epoch: [12/484] Iter:[20/43], Time: 0.19, lr: 0.009768, Loss: 0.530687
+2023-03-13 16:42:06,586 Epoch: [12/484] Iter:[30/43], Time: 0.19, lr: 0.009764, Loss: 0.575258
+2023-03-13 16:42:08,455 Epoch: [12/484] Iter:[40/43], Time: 0.19, lr: 0.009759, Loss: 0.585357
+2023-03-13 16:42:12,469 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:42:12,519 Loss: 0.930, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:42:12,519 [0.99805433 0.        ]
+2023-03-13 16:42:12,876 Epoch: [13/484] Iter:[0/43], Time: 0.29, lr: 0.009758, Loss: 0.424057
+2023-03-13 16:42:14,738 Epoch: [13/484] Iter:[10/43], Time: 0.19, lr: 0.009754, Loss: 0.705411
+2023-03-13 16:42:16,623 Epoch: [13/484] Iter:[20/43], Time: 0.19, lr: 0.009749, Loss: 0.502476
+2023-03-13 16:42:18,481 Epoch: [13/484] Iter:[30/43], Time: 0.19, lr: 0.009745, Loss: 0.557019
+2023-03-13 16:42:20,359 Epoch: [13/484] Iter:[40/43], Time: 0.19, lr: 0.009741, Loss: 0.620726
+2023-03-13 16:42:24,345 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:42:24,392 Loss: 0.836, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:42:24,392 [0.99805433 0.        ]
+2023-03-13 16:42:24,756 Epoch: [14/484] Iter:[0/43], Time: 0.30, lr: 0.009739, Loss: 0.482033
+2023-03-13 16:42:26,655 Epoch: [14/484] Iter:[10/43], Time: 0.20, lr: 0.009735, Loss: 0.490127
+2023-03-13 16:42:28,559 Epoch: [14/484] Iter:[20/43], Time: 0.19, lr: 0.009731, Loss: 0.518390
+2023-03-13 16:42:30,451 Epoch: [14/484] Iter:[30/43], Time: 0.19, lr: 0.009726, Loss: 0.576669
+2023-03-13 16:42:32,342 Epoch: [14/484] Iter:[40/43], Time: 0.19, lr: 0.009722, Loss: 0.599003
+2023-03-13 16:42:36,341 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:42:36,381 Loss: 0.928, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:42:36,381 [0.99805433 0.        ]
+2023-03-13 16:42:36,737 Epoch: [15/484] Iter:[0/43], Time: 0.29, lr: 0.009721, Loss: 0.352342
+2023-03-13 16:42:38,584 Epoch: [15/484] Iter:[10/43], Time: 0.19, lr: 0.009716, Loss: 0.553296
+2023-03-13 16:42:40,444 Epoch: [15/484] Iter:[20/43], Time: 0.19, lr: 0.009712, Loss: 0.598005
+2023-03-13 16:42:42,275 Epoch: [15/484] Iter:[30/43], Time: 0.19, lr: 0.009708, Loss: 0.555946
+2023-03-13 16:42:44,115 Epoch: [15/484] Iter:[40/43], Time: 0.19, lr: 0.009703, Loss: 0.490812
+2023-03-13 16:42:48,097 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:42:48,145 Loss: 1.731, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:42:48,145 [0.99805433 0.        ]
+2023-03-13 16:42:48,504 Epoch: [16/484] Iter:[0/43], Time: 0.29, lr: 0.009702, Loss: 0.085432
+2023-03-13 16:42:50,363 Epoch: [16/484] Iter:[10/43], Time: 0.19, lr: 0.009698, Loss: 0.468033
+2023-03-13 16:42:52,208 Epoch: [16/484] Iter:[20/43], Time: 0.19, lr: 0.009693, Loss: 0.549486
+2023-03-13 16:42:54,064 Epoch: [16/484] Iter:[30/43], Time: 0.19, lr: 0.009689, Loss: 0.554676
+2023-03-13 16:42:55,916 Epoch: [16/484] Iter:[40/43], Time: 0.19, lr: 0.009685, Loss: 0.528807
+2023-03-13 16:42:59,917 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:42:59,965 Loss: 1.011, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:42:59,965 [0.99805433 0.        ]
+2023-03-13 16:43:00,317 Epoch: [17/484] Iter:[0/43], Time: 0.29, lr: 0.009683, Loss: 0.295822
+2023-03-13 16:43:02,190 Epoch: [17/484] Iter:[10/43], Time: 0.20, lr: 0.009679, Loss: 0.793734
+2023-03-13 16:43:04,065 Epoch: [17/484] Iter:[20/43], Time: 0.19, lr: 0.009675, Loss: 0.744029
+2023-03-13 16:43:05,945 Epoch: [17/484] Iter:[30/43], Time: 0.19, lr: 0.009670, Loss: 0.725508
+2023-03-13 16:43:07,822 Epoch: [17/484] Iter:[40/43], Time: 0.19, lr: 0.009666, Loss: 0.692465
+2023-03-13 16:43:11,793 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:43:11,841 Loss: 0.943, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:43:11,841 [0.99805433 0.        ]
+2023-03-13 16:43:12,197 Epoch: [18/484] Iter:[0/43], Time: 0.29, lr: 0.009665, Loss: 0.991805
+2023-03-13 16:43:14,058 Epoch: [18/484] Iter:[10/43], Time: 0.19, lr: 0.009660, Loss: 0.726179
+2023-03-13 16:43:15,940 Epoch: [18/484] Iter:[20/43], Time: 0.19, lr: 0.009656, Loss: 0.578434
+2023-03-13 16:43:17,828 Epoch: [18/484] Iter:[30/43], Time: 0.19, lr: 0.009652, Loss: 0.500256
+2023-03-13 16:43:19,711 Epoch: [18/484] Iter:[40/43], Time: 0.19, lr: 0.009647, Loss: 0.568355
+2023-03-13 16:43:23,669 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:43:23,714 Loss: 1.190, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:43:23,714 [0.99805433 0.        ]
+2023-03-13 16:43:24,071 Epoch: [19/484] Iter:[0/43], Time: 0.30, lr: 0.009646, Loss: 0.220051
+2023-03-13 16:43:25,972 Epoch: [19/484] Iter:[10/43], Time: 0.20, lr: 0.009642, Loss: 0.533048
+2023-03-13 16:43:27,844 Epoch: [19/484] Iter:[20/43], Time: 0.19, lr: 0.009637, Loss: 0.518794
+2023-03-13 16:43:29,720 Epoch: [19/484] Iter:[30/43], Time: 0.19, lr: 0.009633, Loss: 0.560505
+2023-03-13 16:43:31,585 Epoch: [19/484] Iter:[40/43], Time: 0.19, lr: 0.009629, Loss: 0.574943
+2023-03-13 16:43:35,581 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:43:35,629 Loss: 0.968, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:43:35,629 [0.99805433 0.        ]
+2023-03-13 16:43:35,992 Epoch: [20/484] Iter:[0/43], Time: 0.30, lr: 0.009627, Loss: 0.321949
+2023-03-13 16:43:37,872 Epoch: [20/484] Iter:[10/43], Time: 0.20, lr: 0.009623, Loss: 0.532107
+2023-03-13 16:43:39,731 Epoch: [20/484] Iter:[20/43], Time: 0.19, lr: 0.009619, Loss: 0.613532
+2023-03-13 16:43:41,596 Epoch: [20/484] Iter:[30/43], Time: 0.19, lr: 0.009614, Loss: 0.529231
+2023-03-13 16:43:43,439 Epoch: [20/484] Iter:[40/43], Time: 0.19, lr: 0.009610, Loss: 0.477252
+2023-03-13 16:43:47,389 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:43:47,438 Loss: 1.456, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:43:47,438 [0.99805433 0.        ]
+2023-03-13 16:43:47,793 Epoch: [21/484] Iter:[0/43], Time: 0.29, lr: 0.009609, Loss: 0.139704
+2023-03-13 16:43:49,681 Epoch: [21/484] Iter:[10/43], Time: 0.20, lr: 0.009604, Loss: 0.731017
+2023-03-13 16:43:51,577 Epoch: [21/484] Iter:[20/43], Time: 0.19, lr: 0.009600, Loss: 0.652679
+2023-03-13 16:43:53,470 Epoch: [21/484] Iter:[30/43], Time: 0.19, lr: 0.009596, Loss: 0.696188
+2023-03-13 16:43:55,325 Epoch: [21/484] Iter:[40/43], Time: 0.19, lr: 0.009591, Loss: 0.682279
+2023-03-13 16:43:59,285 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:43:59,327 Loss: 0.776, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:43:59,327 [0.99805433 0.        ]
+2023-03-13 16:43:59,682 Epoch: [22/484] Iter:[0/43], Time: 0.30, lr: 0.009590, Loss: 0.517652
+2023-03-13 16:44:01,567 Epoch: [22/484] Iter:[10/43], Time: 0.20, lr: 0.009586, Loss: 0.539198
+2023-03-13 16:44:03,442 Epoch: [22/484] Iter:[20/43], Time: 0.19, lr: 0.009581, Loss: 0.587628
+2023-03-13 16:44:05,315 Epoch: [22/484] Iter:[30/43], Time: 0.19, lr: 0.009577, Loss: 0.604063
+2023-03-13 16:44:07,197 Epoch: [22/484] Iter:[40/43], Time: 0.19, lr: 0.009573, Loss: 0.612358
+2023-03-13 16:44:11,169 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:44:11,217 Loss: 0.934, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:44:11,217 [0.99805433 0.        ]
+2023-03-13 16:44:11,575 Epoch: [23/484] Iter:[0/43], Time: 0.29, lr: 0.009571, Loss: 0.352395
+2023-03-13 16:44:13,441 Epoch: [23/484] Iter:[10/43], Time: 0.20, lr: 0.009567, Loss: 0.683534
+2023-03-13 16:44:15,315 Epoch: [23/484] Iter:[20/43], Time: 0.19, lr: 0.009563, Loss: 0.557160
+2023-03-13 16:44:17,165 Epoch: [23/484] Iter:[30/43], Time: 0.19, lr: 0.009558, Loss: 0.562413
+2023-03-13 16:44:19,025 Epoch: [23/484] Iter:[40/43], Time: 0.19, lr: 0.009554, Loss: 0.500834
+2023-03-13 16:44:23,017 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:44:23,065 Loss: 1.351, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:44:23,065 [0.99805433 0.        ]
+2023-03-13 16:44:23,422 Epoch: [24/484] Iter:[0/43], Time: 0.29, lr: 0.009553, Loss: 0.162032
+2023-03-13 16:44:25,303 Epoch: [24/484] Iter:[10/43], Time: 0.20, lr: 0.009548, Loss: 0.289688
+2023-03-13 16:44:27,184 Epoch: [24/484] Iter:[20/43], Time: 0.19, lr: 0.009544, Loss: 0.448307
+2023-03-13 16:44:29,052 Epoch: [24/484] Iter:[30/43], Time: 0.19, lr: 0.009540, Loss: 0.494530
+2023-03-13 16:44:30,944 Epoch: [24/484] Iter:[40/43], Time: 0.19, lr: 0.009535, Loss: 0.566804
+2023-03-13 16:44:34,913 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:44:34,961 Loss: 0.962, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:44:34,961 [0.99805433 0.        ]
+2023-03-13 16:44:35,319 Epoch: [25/484] Iter:[0/43], Time: 0.29, lr: 0.009534, Loss: 0.339426
+2023-03-13 16:44:37,183 Epoch: [25/484] Iter:[10/43], Time: 0.20, lr: 0.009530, Loss: 0.620646
+2023-03-13 16:44:39,024 Epoch: [25/484] Iter:[20/43], Time: 0.19, lr: 0.009525, Loss: 0.647619
+2023-03-13 16:44:40,888 Epoch: [25/484] Iter:[30/43], Time: 0.19, lr: 0.009521, Loss: 0.623979
+2023-03-13 16:44:42,749 Epoch: [25/484] Iter:[40/43], Time: 0.19, lr: 0.009517, Loss: 0.643029
+2023-03-13 16:44:46,761 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:44:46,810 Loss: 0.864, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:44:46,810 [0.99805433 0.        ]
+2023-03-13 16:44:47,171 Epoch: [26/484] Iter:[0/43], Time: 0.30, lr: 0.009515, Loss: 0.404284
+2023-03-13 16:44:49,052 Epoch: [26/484] Iter:[10/43], Time: 0.20, lr: 0.009511, Loss: 0.561822
+2023-03-13 16:44:50,900 Epoch: [26/484] Iter:[20/43], Time: 0.19, lr: 0.009507, Loss: 0.531332
+2023-03-13 16:44:52,759 Epoch: [26/484] Iter:[30/43], Time: 0.19, lr: 0.009502, Loss: 0.590255
+2023-03-13 16:44:54,644 Epoch: [26/484] Iter:[40/43], Time: 0.19, lr: 0.009498, Loss: 0.581667
+2023-03-13 16:44:58,613 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:44:58,658 Loss: 0.958, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:44:58,658 [0.99805433 0.        ]
+2023-03-13 16:44:59,019 Epoch: [27/484] Iter:[0/43], Time: 0.29, lr: 0.009497, Loss: 0.312876
+2023-03-13 16:45:00,901 Epoch: [27/484] Iter:[10/43], Time: 0.20, lr: 0.009492, Loss: 0.442587
+2023-03-13 16:45:02,809 Epoch: [27/484] Iter:[20/43], Time: 0.19, lr: 0.009488, Loss: 0.584193
+2023-03-13 16:45:04,696 Epoch: [27/484] Iter:[30/43], Time: 0.19, lr: 0.009483, Loss: 0.574091
+2023-03-13 16:45:06,582 Epoch: [27/484] Iter:[40/43], Time: 0.19, lr: 0.009479, Loss: 0.613629
+2023-03-13 16:45:10,521 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:45:10,560 Loss: 0.864, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:45:10,561 [0.99805433 0.        ]
+2023-03-13 16:45:10,915 Epoch: [28/484] Iter:[0/43], Time: 0.29, lr: 0.009478, Loss: 0.395387
+2023-03-13 16:45:12,772 Epoch: [28/484] Iter:[10/43], Time: 0.19, lr: 0.009473, Loss: 0.557929
+2023-03-13 16:45:14,631 Epoch: [28/484] Iter:[20/43], Time: 0.19, lr: 0.009469, Loss: 0.493210
+2023-03-13 16:45:16,472 Epoch: [28/484] Iter:[30/43], Time: 0.19, lr: 0.009465, Loss: 0.581797
+2023-03-13 16:45:18,319 Epoch: [28/484] Iter:[40/43], Time: 0.19, lr: 0.009460, Loss: 0.614136
+2023-03-13 16:45:22,261 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:45:22,308 Loss: 0.879, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:45:22,308 [0.99805433 0.        ]
+2023-03-13 16:45:22,669 Epoch: [29/484] Iter:[0/43], Time: 0.29, lr: 0.009459, Loss: 0.378626
+2023-03-13 16:45:24,540 Epoch: [29/484] Iter:[10/43], Time: 0.20, lr: 0.009455, Loss: 0.545322
+2023-03-13 16:45:26,402 Epoch: [29/484] Iter:[20/43], Time: 0.19, lr: 0.009450, Loss: 0.587433
+2023-03-13 16:45:28,259 Epoch: [29/484] Iter:[30/43], Time: 0.19, lr: 0.009446, Loss: 0.553060
+2023-03-13 16:45:30,113 Epoch: [29/484] Iter:[40/43], Time: 0.19, lr: 0.009442, Loss: 0.579873
+2023-03-13 16:45:34,097 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:45:34,145 Loss: 1.029, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:45:34,145 [0.99805433 0.        ]
+2023-03-13 16:45:34,502 Epoch: [30/484] Iter:[0/43], Time: 0.29, lr: 0.009440, Loss: 0.282303
+2023-03-13 16:45:36,394 Epoch: [30/484] Iter:[10/43], Time: 0.20, lr: 0.009436, Loss: 0.521940
+2023-03-13 16:45:38,256 Epoch: [30/484] Iter:[20/43], Time: 0.19, lr: 0.009432, Loss: 0.447051
+2023-03-13 16:45:40,142 Epoch: [30/484] Iter:[30/43], Time: 0.19, lr: 0.009427, Loss: 0.552210
+2023-03-13 16:45:42,018 Epoch: [30/484] Iter:[40/43], Time: 0.19, lr: 0.009423, Loss: 0.580713
+2023-03-13 16:45:46,025 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:45:46,073 Loss: 0.953, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:45:46,073 [0.99805433 0.        ]
+2023-03-13 16:45:46,431 Epoch: [31/484] Iter:[0/43], Time: 0.29, lr: 0.009422, Loss: 1.108784
+2023-03-13 16:45:48,286 Epoch: [31/484] Iter:[10/43], Time: 0.19, lr: 0.009417, Loss: 0.627064
+2023-03-13 16:45:50,146 Epoch: [31/484] Iter:[20/43], Time: 0.19, lr: 0.009413, Loss: 0.598816
+2023-03-13 16:45:52,024 Epoch: [31/484] Iter:[30/43], Time: 0.19, lr: 0.009409, Loss: 0.539677
+2023-03-13 16:45:53,895 Epoch: [31/484] Iter:[40/43], Time: 0.19, lr: 0.009404, Loss: 0.487080
+2023-03-13 16:45:57,837 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:45:57,886 Loss: 1.293, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:45:57,886 [0.99805433 0.        ]
+2023-03-13 16:45:58,235 Epoch: [32/484] Iter:[0/43], Time: 0.28, lr: 0.009403, Loss: 1.694509
+2023-03-13 16:46:00,109 Epoch: [32/484] Iter:[10/43], Time: 0.20, lr: 0.009399, Loss: 0.551033
+2023-03-13 16:46:01,979 Epoch: [32/484] Iter:[20/43], Time: 0.19, lr: 0.009394, Loss: 0.551946
+2023-03-13 16:46:03,857 Epoch: [32/484] Iter:[30/43], Time: 0.19, lr: 0.009390, Loss: 0.580526
+2023-03-13 16:46:05,706 Epoch: [32/484] Iter:[40/43], Time: 0.19, lr: 0.009386, Loss: 0.599187
+2023-03-13 16:46:09,677 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:46:09,725 Loss: 0.919, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:46:09,725 [0.99805433 0.        ]
+2023-03-13 16:46:10,069 Epoch: [33/484] Iter:[0/43], Time: 0.28, lr: 0.009384, Loss: 1.089912
+2023-03-13 16:46:11,960 Epoch: [33/484] Iter:[10/43], Time: 0.20, lr: 0.009380, Loss: 0.567524
+2023-03-13 16:46:13,826 Epoch: [33/484] Iter:[20/43], Time: 0.19, lr: 0.009376, Loss: 0.529868
+2023-03-13 16:46:15,688 Epoch: [33/484] Iter:[30/43], Time: 0.19, lr: 0.009371, Loss: 0.503653
+2023-03-13 16:46:17,575 Epoch: [33/484] Iter:[40/43], Time: 0.19, lr: 0.009367, Loss: 0.542584
+2023-03-13 16:46:21,613 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:46:21,656 Loss: 1.064, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:46:21,656 [0.99805433 0.        ]
+2023-03-13 16:46:22,007 Epoch: [34/484] Iter:[0/43], Time: 0.28, lr: 0.009365, Loss: 0.250585
+2023-03-13 16:46:23,888 Epoch: [34/484] Iter:[10/43], Time: 0.20, lr: 0.009361, Loss: 0.604589

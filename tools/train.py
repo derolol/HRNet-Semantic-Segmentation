@@ -34,6 +34,9 @@ from core.function import train, validate
 from utils.modelsummary import get_model_summary
 from utils.utils import create_logger, FullModel, get_rank
 
+# cfg           experiment 配置文件名
+# experiments/linkcrack/seg_hrnet_w48_train_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484.yaml
+# local_rank    整数，默认值0
 def parse_args():
     parser = argparse.ArgumentParser(description='Train segmentation network')
     
@@ -53,6 +56,7 @@ def parse_args():
     return args
 
 def main():
+    # 获取输入参数
     args = parse_args()
 
     logger, final_output_dir, tb_log_dir = create_logger(
@@ -68,19 +72,27 @@ def main():
     }
 
     # cudnn related setting
-    cudnn.benchmark = config.CUDNN.BENCHMARK
-    cudnn.deterministic = config.CUDNN.DETERMINISTIC
-    cudnn.enabled = config.CUDNN.ENABLED
+    # cudnn.benchmark = config.CUDNN.BENCHMARK
+    # cudnn.deterministic = config.CUDNN.DETERMINISTIC
+    # cudnn.enabled = config.CUDNN.ENABLED
+
+    # GPU
     gpus = list(config.GPUS)
     distributed = len(gpus) > 1
     device = torch.device('cuda:{}'.format(args.local_rank))
 
+     # 显存管理
+    torch.cuda.set_per_process_memory_fraction(0.5, 0)
+    # torch.cuda.empty_cache()
+
     # build model
+    # 创建模型
     model = eval('models.'+config.MODEL.NAME +
                  '.get_seg_model')(config)
 
     if args.local_rank == 0:
         # provide the summary of model
+        # 模型总结
         dump_input = torch.rand(
             (1, 3, config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
             )
@@ -124,7 +136,7 @@ def main():
         batch_size=config.TRAIN.BATCH_SIZE_PER_GPU,
         shuffle=config.TRAIN.SHUFFLE and train_sampler is None,
         num_workers=config.WORKERS,
-        pin_memory=True,
+        # pin_memory=True,
         drop_last=True,
         sampler=train_sampler)
 
@@ -152,7 +164,7 @@ def main():
             batch_size=config.TRAIN.BATCH_SIZE_PER_GPU,
             shuffle=config.TRAIN.SHUFFLE and extra_train_sampler is None,
             num_workers=config.WORKERS,
-            pin_memory=True,
+            # pin_memory=True,
             drop_last=True,
             sampler=extra_train_sampler)
 
@@ -180,7 +192,7 @@ def main():
         batch_size=config.TEST.BATCH_SIZE_PER_GPU,
         shuffle=False,
         num_workers=config.WORKERS,
-        pin_memory=True,
+        # pin_memory=True,
         sampler=test_sampler)
 
     # criterion
@@ -194,10 +206,10 @@ def main():
                                  weight=train_dataset.class_weights)
 
     model = FullModel(model, criterion)
-    model = nn.SyncBatchNorm.convert_sync_batchnorm(model)
+    # model = nn.SyncBatchNorm.convert_sync_batchnorm(model)
     model = model.to(device)
-    model = nn.parallel.DistributedDataParallel(
-        model, device_ids=[args.local_rank], output_device=args.local_rank)
+    # model = nn.parallel.DistributedDataParallel(
+    #     model, device_ids=[args.local_rank], output_device=args.local_rank)
 
     # optimizer
     if config.TRAIN.OPTIMIZER == 'sgd':
@@ -225,7 +237,7 @@ def main():
                         map_location=lambda storage, loc: storage)
             best_mIoU = checkpoint['best_mIoU']
             last_epoch = checkpoint['epoch']
-            model.module.load_state_dict(checkpoint['state_dict'])
+            model.load_state_dict(checkpoint['state_dict'])
             optimizer.load_state_dict(checkpoint['optimizer'])
             logger.info("=> loaded checkpoint (epoch {})"
                         .format(checkpoint['epoch']))
@@ -235,6 +247,7 @@ def main():
     num_iters = config.TRAIN.END_EPOCH * epoch_iters
     extra_iters = config.TRAIN.EXTRA_EPOCH * epoch_iters
     
+    # 开始训练
     for epoch in range(last_epoch, end_epoch):
         if distributed:
             train_sampler.set_epoch(epoch)
@@ -259,13 +272,13 @@ def main():
             torch.save({
                 'epoch': epoch+1,
                 'best_mIoU': best_mIoU,
-                'state_dict': model.module.state_dict(),
+                'state_dict': model.state_dict(),
                 'optimizer': optimizer.state_dict(),
             }, os.path.join(final_output_dir,'checkpoint.pth.tar'))
 
             if mean_IoU > best_mIoU:
                 best_mIoU = mean_IoU
-                torch.save(model.module.state_dict(),
+                torch.save(model.state_dict(),
                            os.path.join(final_output_dir, 'best.pth'))
             msg = 'Loss: {:.3f}, MeanIU: {: 4.4f}, Best_mIoU: {: 4.4f}'.format(
                     valid_loss, mean_IoU, best_mIoU)
@@ -273,7 +286,7 @@ def main():
             logging.info(IoU_array)
 
             if epoch == end_epoch - 1:
-                torch.save(model.module.state_dict(),
+                torch.save(model.state_dict(),
                        os.path.join(final_output_dir, 'final_state.pth'))
 
                 writer_dict['writer'].close()

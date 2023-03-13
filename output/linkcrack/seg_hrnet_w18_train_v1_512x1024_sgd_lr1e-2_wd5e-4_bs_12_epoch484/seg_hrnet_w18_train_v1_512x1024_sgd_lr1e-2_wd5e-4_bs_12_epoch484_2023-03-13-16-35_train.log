@@ -1,0 +1,114 @@
+2023-03-13 16:35:30,390 Namespace(cfg='experiments/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484.yaml', local_rank=0, opts=[])
+2023-03-13 16:35:30,390 AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: linkcrack
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 2
+  ROOT: ../LinkCrack/data/
+  TEST_SET: list/linkcrack/val.lst
+  TRAIN_SET: list/linkcrack/train.lst
+DEBUG:
+  DEBUG: False
+  SAVE_BATCH_IMAGES_GT: False
+  SAVE_BATCH_IMAGES_PRED: False
+  SAVE_HEATMAPS_GT: False
+  SAVE_HEATMAPS_PRED: False
+GPUS: (0,)
+LOG_DIR: log
+LOSS:
+  CLASS_BALANCE: True
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  USE_OHEM: False
+MODEL:
+  EXTRA:
+    FINAL_CONV_KERNEL: 1
+    STAGE1:
+      BLOCK: BOTTLENECK
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [1]
+      NUM_CHANNELS: [32]
+      NUM_MODULES: 1
+      NUM_RANCHES: 1
+    STAGE2:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [2, 2]
+      NUM_BRANCHES: 2
+      NUM_CHANNELS: [16, 32]
+      NUM_MODULES: 1
+    STAGE3:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [2, 2, 2]
+      NUM_BRANCHES: 3
+      NUM_CHANNELS: [16, 32, 64]
+      NUM_MODULES: 1
+    STAGE4:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [2, 2, 2, 2]
+      NUM_BRANCHES: 4
+      NUM_CHANNELS: [16, 32, 64, 128]
+      NUM_MODULES: 1
+  NAME: seg_hrnet
+  PRETRAINED: pretrained_models/hrnet_w18_small_model_v1.pth
+OUTPUT_DIR: output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+RANK: 0
+TEST:
+  BASE_SIZE: 3
+  BATCH_SIZE_PER_GPU: 16
+  CENTER_CROP_TEST: False
+  FLIP_TEST: False
+  IMAGE_SIZE: [512, 512]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  NUM_SAMPLES: 0
+  SCALE_LIST: [1]
+TRAIN:
+  BASE_SIZE: 3
+  BATCH_SIZE_PER_GPU: 16
+  BEGIN_EPOCH: 0
+  DOWNSAMPLERATE: 1
+  END_EPOCH: 484
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  IGNORE_LABEL: 255
+  IMAGE_SIZE: [512, 512]
+  LR: 0.01
+  LR_FACTOR: 0.1
+  LR_STEP: [90, 110]
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  NUM_SAMPLES: 0
+  OPTIMIZER: sgd
+  RESUME: False
+  SCALE_FACTOR: 16
+  SHUFFLE: True
+  WD: 0.0005
+WORKERS: 1
+2023-03-13 16:35:30,437 => init weights from normal distribution
+2023-03-13 16:35:37,020 
+Total Parameters: 1,536,722
+----------------------------------------------------------------------------------------------------------------------------------
+Total Multiply Adds (For Convolution and Linear Layers only): 3.824951171875 GFLOPs
+----------------------------------------------------------------------------------------------------------------------------------
+Number of Layers
+Conv2d : 73 layers   BatchNorm2d : 72 layers   ReLU : 60 layers   Bottleneck : 1 layers   BasicBlock : 18 layers   HighResolutionModule : 3 layers   
+2023-03-13 16:35:38,085 Epoch: [0/484] Iter:[0/43], Time: 1.05, lr: 0.010000, Loss: 0.597591
+2023-03-13 16:35:39,658 Epoch: [0/484] Iter:[10/43], Time: 0.23, lr: 0.009996, Loss: 0.141837
+2023-03-13 16:35:41,485 Epoch: [0/484] Iter:[20/43], Time: 0.21, lr: 0.009991, Loss: 0.074296
+2023-03-13 16:35:43,295 Epoch: [0/484] Iter:[30/43], Time: 0.20, lr: 0.009987, Loss: 0.061881
+2023-03-13 16:35:45,129 Epoch: [0/484] Iter:[40/43], Time: 0.20, lr: 0.009983, Loss: 0.054185
+2023-03-13 16:35:49,429 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:35:49,499 Loss: 39.439, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:35:49,499 [0.99805433 0.        ]
+2023-03-13 16:35:49,858 Epoch: [1/484] Iter:[0/43], Time: 0.30, lr: 0.009981, Loss: 0.002625

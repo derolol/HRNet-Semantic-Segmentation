@@ -35,6 +35,7 @@ def reduce_tensor(inp):
         dist.reduce(reduced_inp, dst=0)
     return reduced_inp
 
+# 训练
 def train(config, epoch, num_epoch, epoch_iters, base_lr, num_iters,
          trainloader, optimizer, model, writer_dict, device):
     
@@ -43,13 +44,14 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr, num_iters,
     batch_time = AverageMeter()
     ave_loss = AverageMeter()
     tic = time.time()
-    cur_iters = epoch*epoch_iters
+    cur_iters = epoch * epoch_iters
     writer = writer_dict['writer']
     global_steps = writer_dict['train_global_steps']
     rank = get_rank()
     world_size = get_world_size()
 
     for i_iter, batch in enumerate(trainloader):
+
         images, labels, _, _ = batch
         images = images.to(device)
         labels = labels.long().to(device)
@@ -59,6 +61,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr, num_iters,
 
         reduced_loss = reduce_tensor(loss)
 
+        # 梯度归零/反向传播/更新参数
         model.zero_grad()
         loss.backward()
         optimizer.step()
@@ -109,21 +112,28 @@ def validate(config, testloader, model, writer_dict, device):
             reduced_loss = reduce_tensor(loss)
             ave_loss.update(reduced_loss.item())
 
+            # 获取混淆矩阵并累加
             confusion_matrix += get_confusion_matrix(
                 label,
                 pred,
                 size,
                 config.DATASET.NUM_CLASSES,
                 config.TRAIN.IGNORE_LABEL)
+            if confusion_matrix[1][1] > 0 or confusion_matrix[0][1] > 0:
+                print('新猜测 confusion_matrix-', _, ': ', confusion_matrix)
 
     confusion_matrix = torch.from_numpy(confusion_matrix).to(device)
     reduced_confusion_matrix = reduce_tensor(confusion_matrix)
 
     confusion_matrix = reduced_confusion_matrix.cpu().numpy()
+    print('confusion_matrix: ', confusion_matrix)
     pos = confusion_matrix.sum(1)
     res = confusion_matrix.sum(0)
+    # 获取混淆矩阵的对角线元素
     tp = np.diag(confusion_matrix)
+    # IoU = (A ∩ B) / (A ∪ B)
     IoU_array = (tp / np.maximum(1.0, pos + res - tp))
+    print('IoU_array: ', IoU_array)
     mean_IoU = IoU_array.mean()
     print_loss = ave_loss.average()/world_size
 

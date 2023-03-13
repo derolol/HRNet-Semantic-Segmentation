@@ -1,0 +1,189 @@
+2023-03-13 16:46:32,375 Namespace(cfg='experiments/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484.yaml', local_rank=0, opts=[])
+2023-03-13 16:46:32,375 AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: linkcrack
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 2
+  ROOT: ../LinkCrack/data/
+  TEST_SET: list/linkcrack/val.lst
+  TRAIN_SET: list/linkcrack/train.lst
+DEBUG:
+  DEBUG: False
+  SAVE_BATCH_IMAGES_GT: False
+  SAVE_BATCH_IMAGES_PRED: False
+  SAVE_HEATMAPS_GT: False
+  SAVE_HEATMAPS_PRED: False
+GPUS: (0,)
+LOG_DIR: log
+LOSS:
+  CLASS_BALANCE: True
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  USE_OHEM: False
+MODEL:
+  EXTRA:
+    FINAL_CONV_KERNEL: 1
+    STAGE1:
+      BLOCK: BOTTLENECK
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [1]
+      NUM_CHANNELS: [32]
+      NUM_MODULES: 1
+      NUM_RANCHES: 1
+    STAGE2:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [2, 2]
+      NUM_BRANCHES: 2
+      NUM_CHANNELS: [16, 32]
+      NUM_MODULES: 1
+    STAGE3:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [2, 2, 2]
+      NUM_BRANCHES: 3
+      NUM_CHANNELS: [16, 32, 64]
+      NUM_MODULES: 1
+    STAGE4:
+      BLOCK: BASIC
+      FUSE_METHOD: SUM
+      NUM_BLOCKS: [2, 2, 2, 2]
+      NUM_BRANCHES: 4
+      NUM_CHANNELS: [16, 32, 64, 128]
+      NUM_MODULES: 1
+  NAME: seg_hrnet
+  PRETRAINED: pretrained_models/hrnet_w18_small_model_v1.pth
+OUTPUT_DIR: output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+RANK: 0
+TEST:
+  BASE_SIZE: 3
+  BATCH_SIZE_PER_GPU: 16
+  CENTER_CROP_TEST: False
+  FLIP_TEST: False
+  IMAGE_SIZE: [512, 512]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  NUM_SAMPLES: 0
+  SCALE_LIST: [1]
+TRAIN:
+  BASE_SIZE: 3
+  BATCH_SIZE_PER_GPU: 16
+  BEGIN_EPOCH: 0
+  DOWNSAMPLERATE: 1
+  END_EPOCH: 484
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  IGNORE_LABEL: 255
+  IMAGE_SIZE: [512, 512]
+  LR: 0.01
+  LR_FACTOR: 0.1
+  LR_STEP: [90, 110]
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  NUM_SAMPLES: 0
+  OPTIMIZER: sgd
+  RESUME: False
+  SCALE_FACTOR: 16
+  SHUFFLE: True
+  WD: 0.0005
+WORKERS: 1
+2023-03-13 16:46:32,425 => init weights from normal distribution
+2023-03-13 16:46:39,083 
+Total Parameters: 1,536,722
+----------------------------------------------------------------------------------------------------------------------------------
+Total Multiply Adds (For Convolution and Linear Layers only): 3.824951171875 GFLOPs
+----------------------------------------------------------------------------------------------------------------------------------
+Number of Layers
+Conv2d : 73 layers   BatchNorm2d : 72 layers   ReLU : 60 layers   Bottleneck : 1 layers   BasicBlock : 18 layers   HighResolutionModule : 3 layers   
+2023-03-13 16:46:40,156 Epoch: [0/484] Iter:[0/43], Time: 1.06, lr: 0.010000, Loss: 0.648637
+2023-03-13 16:46:41,788 Epoch: [0/484] Iter:[10/43], Time: 0.24, lr: 0.009996, Loss: 2.833370
+2023-03-13 16:46:43,646 Epoch: [0/484] Iter:[20/43], Time: 0.21, lr: 0.009991, Loss: 1.942440
+2023-03-13 16:46:45,493 Epoch: [0/484] Iter:[30/43], Time: 0.20, lr: 0.009987, Loss: 1.511613
+2023-03-13 16:46:47,346 Epoch: [0/484] Iter:[40/43], Time: 0.20, lr: 0.009983, Loss: 1.360022
+2023-03-13 16:46:51,665 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:46:51,734 Loss: 10517.870, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:46:51,735 [0.99805433 0.        ]
+2023-03-13 16:46:52,096 Epoch: [1/484] Iter:[0/43], Time: 0.30, lr: 0.009981, Loss: 0.313343
+2023-03-13 16:46:53,940 Epoch: [1/484] Iter:[10/43], Time: 0.19, lr: 0.009977, Loss: 0.830272
+2023-03-13 16:46:55,777 Epoch: [1/484] Iter:[20/43], Time: 0.19, lr: 0.009973, Loss: 0.920579
+2023-03-13 16:46:57,606 Epoch: [1/484] Iter:[30/43], Time: 0.19, lr: 0.009968, Loss: 0.895132
+2023-03-13 16:46:59,437 Epoch: [1/484] Iter:[40/43], Time: 0.19, lr: 0.009964, Loss: 0.904757
+2023-03-13 16:47:03,405 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:47:03,452 Loss: 181.131, MeanIU:  0.4927, Best_mIoU:  0.4990
+2023-03-13 16:47:03,453 [0.98405036 0.00128075]
+2023-03-13 16:47:03,820 Epoch: [2/484] Iter:[0/43], Time: 0.30, lr: 0.009963, Loss: 0.335627
+2023-03-13 16:47:05,671 Epoch: [2/484] Iter:[10/43], Time: 0.19, lr: 0.009958, Loss: 0.858775
+2023-03-13 16:47:07,503 Epoch: [2/484] Iter:[20/43], Time: 0.19, lr: 0.009954, Loss: 0.908553
+2023-03-13 16:47:09,360 Epoch: [2/484] Iter:[30/43], Time: 0.19, lr: 0.009950, Loss: 0.656888
+2023-03-13 16:47:11,220 Epoch: [2/484] Iter:[40/43], Time: 0.19, lr: 0.009945, Loss: 0.786238
+2023-03-13 16:47:15,185 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:47:15,232 Loss: 21.490, MeanIU:  0.3029, Best_mIoU:  0.4990
+2023-03-13 16:47:15,233 [0.60389775 0.00184987]
+2023-03-13 16:47:15,592 Epoch: [3/484] Iter:[0/43], Time: 0.29, lr: 0.009944, Loss: 0.520898
+2023-03-13 16:47:17,435 Epoch: [3/484] Iter:[10/43], Time: 0.19, lr: 0.009940, Loss: 0.964434
+2023-03-13 16:47:19,295 Epoch: [3/484] Iter:[20/43], Time: 0.19, lr: 0.009936, Loss: 1.004758
+2023-03-13 16:47:21,145 Epoch: [3/484] Iter:[30/43], Time: 0.19, lr: 0.009931, Loss: 0.952597
+2023-03-13 16:47:22,992 Epoch: [3/484] Iter:[40/43], Time: 0.19, lr: 0.009927, Loss: 0.821438
+2023-03-13 16:47:27,009 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:47:27,059 Loss: 7.873, MeanIU:  0.4989, Best_mIoU:  0.4990
+2023-03-13 16:47:27,059 [9.97617166e-01 1.98654823e-04]
+2023-03-13 16:47:27,422 Epoch: [4/484] Iter:[0/43], Time: 0.30, lr: 0.009926, Loss: 3.221784
+2023-03-13 16:47:29,287 Epoch: [4/484] Iter:[10/43], Time: 0.20, lr: 0.009921, Loss: 1.223712
+2023-03-13 16:47:31,148 Epoch: [4/484] Iter:[20/43], Time: 0.19, lr: 0.009917, Loss: 1.109785
+2023-03-13 16:47:33,018 Epoch: [4/484] Iter:[30/43], Time: 0.19, lr: 0.009913, Loss: 0.974733
+2023-03-13 16:47:34,889 Epoch: [4/484] Iter:[40/43], Time: 0.19, lr: 0.009908, Loss: 1.065510
+2023-03-13 16:47:38,893 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:47:38,938 Loss: 5.956, MeanIU:  0.4970, Best_mIoU:  0.4990
+2023-03-13 16:47:38,938 [9.93368105e-01 6.84884039e-04]
+2023-03-13 16:47:39,302 Epoch: [5/484] Iter:[0/43], Time: 0.30, lr: 0.009907, Loss: 1.018295
+2023-03-13 16:47:41,160 Epoch: [5/484] Iter:[10/43], Time: 0.20, lr: 0.009903, Loss: 0.666752
+2023-03-13 16:47:43,028 Epoch: [5/484] Iter:[20/43], Time: 0.19, lr: 0.009898, Loss: 0.633174
+2023-03-13 16:47:44,909 Epoch: [5/484] Iter:[30/43], Time: 0.19, lr: 0.009894, Loss: 0.634147
+2023-03-13 16:47:46,770 Epoch: [5/484] Iter:[40/43], Time: 0.19, lr: 0.009890, Loss: 0.656453
+2023-03-13 16:47:50,761 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:47:50,832 Loss: 1.418, MeanIU:  0.4960, Best_mIoU:  0.4990
+2023-03-13 16:47:50,832 [9.91376357e-01 6.20794743e-04]
+2023-03-13 16:47:51,196 Epoch: [6/484] Iter:[0/43], Time: 0.30, lr: 0.009888, Loss: 1.060251
+2023-03-13 16:47:53,071 Epoch: [6/484] Iter:[10/43], Time: 0.20, lr: 0.009884, Loss: 0.717771
+2023-03-13 16:47:54,952 Epoch: [6/484] Iter:[20/43], Time: 0.19, lr: 0.009880, Loss: 0.646793
+2023-03-13 16:47:56,844 Epoch: [6/484] Iter:[30/43], Time: 0.19, lr: 0.009875, Loss: 0.558144
+2023-03-13 16:47:58,710 Epoch: [6/484] Iter:[40/43], Time: 0.19, lr: 0.009871, Loss: 0.541924
+2023-03-13 16:48:02,745 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:48:02,787 Loss: 1.851, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:48:02,787 [9.97972055e-01 2.66810744e-05]
+2023-03-13 16:48:03,151 Epoch: [7/484] Iter:[0/43], Time: 0.30, lr: 0.009870, Loss: 2.085309
+2023-03-13 16:48:05,024 Epoch: [7/484] Iter:[10/43], Time: 0.20, lr: 0.009865, Loss: 1.265688
+2023-03-13 16:48:06,912 Epoch: [7/484] Iter:[20/43], Time: 0.19, lr: 0.009861, Loss: 0.946030
+2023-03-13 16:48:08,772 Epoch: [7/484] Iter:[30/43], Time: 0.19, lr: 0.009857, Loss: 0.858005
+2023-03-13 16:48:10,647 Epoch: [7/484] Iter:[40/43], Time: 0.19, lr: 0.009852, Loss: 0.782239
+2023-03-13 16:48:14,613 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:48:14,661 Loss: 0.956, MeanIU:  0.4817, Best_mIoU:  0.4990
+2023-03-13 16:48:14,661 [0.9623759  0.00109364]
+2023-03-13 16:48:15,020 Epoch: [8/484] Iter:[0/43], Time: 0.29, lr: 0.009851, Loss: 1.043743
+2023-03-13 16:48:16,868 Epoch: [8/484] Iter:[10/43], Time: 0.19, lr: 0.009847, Loss: 0.508908
+2023-03-13 16:48:18,725 Epoch: [8/484] Iter:[20/43], Time: 0.19, lr: 0.009842, Loss: 0.398984
+2023-03-13 16:48:20,593 Epoch: [8/484] Iter:[30/43], Time: 0.19, lr: 0.009838, Loss: 0.521286
+2023-03-13 16:48:22,464 Epoch: [8/484] Iter:[40/43], Time: 0.19, lr: 0.009834, Loss: 0.515377
+2023-03-13 16:48:26,477 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:48:26,517 Loss: 1.381, MeanIU:  0.4990, Best_mIoU:  0.4990
+2023-03-13 16:48:26,517 [0.99803665 0.        ]
+2023-03-13 16:48:26,882 Epoch: [9/484] Iter:[0/43], Time: 0.30, lr: 0.009832, Loss: 0.238489
+2023-03-13 16:48:28,774 Epoch: [9/484] Iter:[10/43], Time: 0.20, lr: 0.009828, Loss: 0.697718
+2023-03-13 16:48:30,645 Epoch: [9/484] Iter:[20/43], Time: 0.19, lr: 0.009824, Loss: 0.606861
+2023-03-13 16:48:32,521 Epoch: [9/484] Iter:[30/43], Time: 0.19, lr: 0.009819, Loss: 0.731789
+2023-03-13 16:48:34,386 Epoch: [9/484] Iter:[40/43], Time: 0.19, lr: 0.009815, Loss: 0.673123
+2023-03-13 16:48:38,417 => saving checkpoint to output/linkcrack/seg_hrnet_w18_train_v1_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484checkpoint.pth.tar
+2023-03-13 16:48:38,468 Loss: 0.953, MeanIU:  0.4758, Best_mIoU:  0.4990
+2023-03-13 16:48:38,468 [0.95008046 0.00154314]
+2023-03-13 16:48:38,832 Epoch: [10/484] Iter:[0/43], Time: 0.30, lr: 0.009814, Loss: 0.426283
+2023-03-13 16:48:40,728 Epoch: [10/484] Iter:[10/43], Time: 0.20, lr: 0.009810, Loss: 0.536917
+2023-03-13 16:48:42,625 Epoch: [10/484] Iter:[20/43], Time: 0.19, lr: 0.009805, Loss: 0.491665
+2023-03-13 16:48:44,513 Epoch: [10/484] Iter:[30/43], Time: 0.19, lr: 0.009801, Loss: 0.495549

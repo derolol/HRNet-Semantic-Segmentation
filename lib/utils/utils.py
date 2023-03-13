@@ -81,21 +81,27 @@ class AverageMeter(object):
         return self.avg
 
 def create_logger(cfg, cfg_name, phase='train'):
+    # 输出目录
     root_output_dir = Path(cfg.OUTPUT_DIR)
-    # set up logger
+    # 若目录不存在则创建
     if not root_output_dir.exists():
         print('=> creating {}'.format(root_output_dir))
         root_output_dir.mkdir()
 
+    # 数据集
     dataset = cfg.DATASET.DATASET
+    # 模型名称
     model = cfg.MODEL.NAME
+    # 配置文件名
     cfg_name = os.path.basename(cfg_name).split('.')[0]
 
+    # 最终输出目录拼接及创建
     final_output_dir = root_output_dir / dataset / cfg_name
 
     print('=> creating {}'.format(final_output_dir))
     final_output_dir.mkdir(parents=True, exist_ok=True)
 
+    # 日志文件创建
     time_str = time.strftime('%Y-%m-%d-%H-%M')
     log_file = '{}_{}_{}.log'.format(cfg_name, time_str, phase)
     final_log_file = final_output_dir / log_file
@@ -117,12 +123,17 @@ def create_logger(cfg, cfg_name, phase='train'):
 def get_confusion_matrix(label, pred, size, num_class, ignore=-1):
     """
     Calcute the confusion matrix by given label and pred
+    (B, C, H, W)
     """
+    # 转换成(B, H, W, C)
     output = pred.cpu().numpy().transpose(0, 2, 3, 1)
+    # 获取概率最大的通道所在index
     seg_pred = np.asarray(np.argmax(output, axis=3), dtype=np.uint8)
+    # 获取 Ground Truth
     seg_gt = np.asarray(
-    label.cpu().numpy()[:, :size[-2], :size[-1]], dtype=np.int)
+        label.cpu().numpy()[:, :size[-2], :size[-1]], dtype=np.int)
 
+    # 排除 ignore 像素
     ignore_index = seg_gt != ignore
     seg_gt = seg_gt[ignore_index]
     seg_pred = seg_pred[ignore_index]
