@@ -8,6 +8,43 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 
+import numpy as np
+
+class FocalCrossEntropy(nn.Module):
+    def __init__(self, ignore_label=-1, weight=None, alpha = 0.5, gamma = 2):
+        super(FocalCrossEntropy, self).__init__()
+        self.ignore_label = ignore_label
+        self.alpha = alpha
+        self.gamma = gamma
+        self.criterion = nn.CrossEntropyLoss(weight=weight, 
+                                             ignore_index=ignore_label,
+                                             reduction='none')
+
+    def forward(self, score, target):
+        ph, pw = score.size(2), score.size(3)
+        h, w = target.size(1), target.size(2)
+        if ph != h or pw != w:
+            score = F.interpolate(
+                    input=score, size=(h, w), mode='bilinear')
+            
+        # print('score', (score.max()))
+        # print('target', (target.max()))
+        
+        ce = - self.criterion(score, target)
+
+        # print(ce)
+
+        pt = torch.exp(ce)
+
+        loss = -((1 - pt) ** self.gamma) * ce * self.alpha
+
+        # print(loss)
+
+
+        loss = loss.mean()
+
+        return loss
+
 class CrossEntropy(nn.Module):
     def __init__(self, ignore_label=-1, weight=None):
         super(CrossEntropy, self).__init__()
@@ -19,7 +56,7 @@ class CrossEntropy(nn.Module):
         ph, pw = score.size(2), score.size(3)
         h, w = target.size(1), target.size(2)
         if ph != h or pw != w:
-            score = F.upsample(
+            score = F.interpolate(
                     input=score, size=(h, w), mode='bilinear')
 
         loss = self.criterion(score, target)
@@ -41,7 +78,7 @@ class OhemCrossEntropy(nn.Module):
         ph, pw = score.size(2), score.size(3)
         h, w = target.size(1), target.size(2)
         if ph != h or pw != w:
-            score = F.upsample(input=score, size=(h, w), mode='bilinear')
+            score = F.interpolate(input=score, size=(h, w), mode='bilinear')
         pred = F.softmax(score, dim=1)
         pixel_losses = self.criterion(score, target).contiguous().view(-1)
         mask = target.contiguous().view(-1) != self.ignore_label         

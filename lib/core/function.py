@@ -106,7 +106,7 @@ def validate(config, testloader, model, writer_dict, device):
             label = label.long().to(device)
 
             losses, pred = model(image, label)
-            pred = F.upsample(input=pred, size=(
+            pred = F.interpolate(input=pred, size=(
                         size[-2], size[-1]), mode='bilinear')
             loss = losses.mean()
             reduced_loss = reduce_tensor(loss)
@@ -119,21 +119,21 @@ def validate(config, testloader, model, writer_dict, device):
                 size,
                 config.DATASET.NUM_CLASSES,
                 config.TRAIN.IGNORE_LABEL)
-            if confusion_matrix[1][1] > 0 or confusion_matrix[0][1] > 0:
-                print('新猜测 confusion_matrix-', _, ': ', confusion_matrix)
+            # if confusion_matrix[1][1] > 0 or confusion_matrix[0][1] > 0:
+            #     print('新猜测 confusion_matrix-', _, ': ', confusion_matrix)
 
     confusion_matrix = torch.from_numpy(confusion_matrix).to(device)
     reduced_confusion_matrix = reduce_tensor(confusion_matrix)
 
     confusion_matrix = reduced_confusion_matrix.cpu().numpy()
-    print('confusion_matrix: ', confusion_matrix)
+    # print('confusion_matrix: ', confusion_matrix)
     pos = confusion_matrix.sum(1)
     res = confusion_matrix.sum(0)
     # 获取混淆矩阵的对角线元素
     tp = np.diag(confusion_matrix)
     # IoU = (A ∩ B) / (A ∪ B)
     IoU_array = (tp / np.maximum(1.0, pos + res - tp))
-    print('IoU_array: ', IoU_array)
+    # print('IoU_array: ', IoU_array)
     mean_IoU = IoU_array.mean()
     print_loss = ave_loss.average()/world_size
 
@@ -162,7 +162,7 @@ def testval(config, test_dataset, testloader, model,
                         flip=config.TEST.FLIP_TEST)
             
             if pred.size()[-2] != size[-2] or pred.size()[-1] != size[-1]:
-                pred = F.upsample(pred, (size[-2], size[-1]), 
+                pred = F.interpolate(pred, (size[-2], size[-1]), 
                                    mode='bilinear')
 
             confusion_matrix += get_confusion_matrix(
@@ -202,7 +202,7 @@ def test(config, test_dataset, testloader, model,
     model.eval()
     with torch.no_grad():
         for _, batch in enumerate(tqdm(testloader)):
-            image, size, name = batch
+            image, _, size, name = batch
             size = size[0]
             pred = test_dataset.multi_scale_inference(
                         model, 
@@ -211,7 +211,7 @@ def test(config, test_dataset, testloader, model,
                         flip=config.TEST.FLIP_TEST)
             
             if pred.size()[-2] != size[0] or pred.size()[-1] != size[1]:
-                pred = F.upsample(pred, (size[-2], size[-1]), 
+                pred = F.interpolate(pred, (size[-2], size[-1]), 
                                    mode='bilinear')
 
             if sv_pred:

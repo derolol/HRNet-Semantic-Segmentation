@@ -24,18 +24,21 @@ import torch.optim
 from torch.utils.data.distributed import DistributedSampler
 from tensorboardX import SummaryWriter
 
+import visdom
+
 import _init_paths
 import models
 import datasets
 from config import config
 from config import update_config
-from core.criterion import CrossEntropy, OhemCrossEntropy
+from core.criterion import CrossEntropy, OhemCrossEntropy, FocalCrossEntropy
 from core.function import train, validate
 from utils.modelsummary import get_model_summary
 from utils.utils import create_logger, FullModel, get_rank
 
 # cfg           experiment 配置文件名
-# experiments/linkcrack/seg_hrnet_w48_train_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484.yaml
+#   experiments/linkcrack/seg_hrnet_w48_train_512x1024_sgd_lr1e-2_wd5e-4_bs_12_epoch484.yaml
+#   experiments/tunnel/tunnel_hrnet_train_v1_512x250_sgd_lr1e-2_wd5e-4_bs_16_epoch484.yaml
 # local_rank    整数，默认值0
 def parse_args():
     parser = argparse.ArgumentParser(description='Train segmentation network')
@@ -81,9 +84,12 @@ def main():
     distributed = len(gpus) > 1
     device = torch.device('cuda:{}'.format(args.local_rank))
 
-     # 显存管理
-    torch.cuda.set_per_process_memory_fraction(0.5, 0)
+    # 显存管理
+    torch.cuda.set_per_process_memory_fraction(0.8, 0)
     # torch.cuda.empty_cache()
+
+    # 创建visdom环境
+    vis = visdom.Visdom(env='hrnet', port=10624)
 
     # build model
     # 创建模型
@@ -201,6 +207,9 @@ def main():
                                      thres=config.LOSS.OHEMTHRES,
                                      min_kept=config.LOSS.OHEMKEEP,
                                      weight=train_dataset.class_weights)
+    elif config.LOSS.USE_FOCAL:
+        criterion = FocalCrossEntropy(ignore_label=config.TRAIN.IGNORE_LABEL,
+                                 weight=train_dataset.class_weights)
     else:
         criterion = CrossEntropy(ignore_label=config.TRAIN.IGNORE_LABEL,
                                  weight=train_dataset.class_weights)
@@ -262,9 +271,30 @@ def main():
                   epoch_iters, config.TRAIN.LR, num_iters,
                   trainloader, optimizer, model, writer_dict,
                   device)
-
+        
         valid_loss, mean_IoU, IoU_array = validate(config, 
                     testloader, model, writer_dict, device)
+        
+        # Visdom
+        vis.line(
+            X = [epoch],
+            Y = [mean_IoU],
+            win='loss',
+            name='mean_IoU',
+            update='append' if epoch > 0 else None,
+            opts={
+                'showlegend': True,
+                'title': 'Training IoU',
+                'xlabel': 'epoch',
+                'ylabel': 'IoU',
+            })
+        
+        vis.line(
+            X=[epoch],
+            Y=[best_mIoU],
+            win='loss',
+            name='best_mIoU',
+            update='append' if epoch > 0 else None)
 
         if args.local_rank == 0:
             logger.info('=> saving checkpoint to {}'.format(

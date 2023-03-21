@@ -73,8 +73,10 @@ def main():
     if config.TEST.MODEL_FILE:
         model_state_file = config.TEST.MODEL_FILE
     else:
+        # model_state_file = os.path.join(final_output_dir,
+        #                                 'final_state.pth')
         model_state_file = os.path.join(final_output_dir,
-                                        'final_state.pth')
+                                        'best.pth')
     logger.info('=> loading model from {}'.format(model_state_file))
         
     pretrained_dict = torch.load(model_state_file)
@@ -129,6 +131,13 @@ def main():
              testloader, 
              model,
              sv_dir=final_output_dir)
+    
+    # 我自己加的
+    test(config, 
+        test_dataset, 
+        testloader, 
+        model,
+        sv_dir=final_output_dir)
 
     end = timeit.default_timer()
     logger.info('Mins: %d' % np.int((end-start)/60))
